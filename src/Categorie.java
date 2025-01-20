@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Categorie {
 
     private String nom; // le nom de la catégorie p.ex : sport, politique,...
-    private static ArrayList<PaireChaineEntier> lexique; //le lexique de la catégorie
+    private static ArrayList<PaireChaineEntier> lexique = new ArrayList<>(); //le lexique de la catégorie
 
     // constructeur
     public Categorie(String nom) {
@@ -19,7 +19,7 @@ public class Categorie {
         return nom;
     }
 
-    public ArrayList<PaireChaineEntier> getLexique() {
+    public static ArrayList<PaireChaineEntier> getLexique() {
         return lexique;
     }
 
@@ -47,7 +47,7 @@ public class Categorie {
                 currentPaire.setEntier(currentEntier);
                 // ajoute dans l'arrayList
 
-                this.lexique.add(currentPaire);
+                lexique.add(currentPaire);
             }
         } catch (IOException e) {
             e.printStackTrace();

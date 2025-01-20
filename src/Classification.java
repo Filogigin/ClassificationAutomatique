@@ -80,8 +80,8 @@ public class Classification {
         System.out.println(UtilitairePaireChaineEntier.indicePourChaine(word));*/
 
         Categorie.initLexique("./sport.txt");
-        System.out.println();
-
+        ArrayList<PaireChaineEntier> lexique = Categorie.getLexique();
+        System.out.println(lexique);
     }
 
 
