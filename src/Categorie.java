@@ -55,9 +55,4 @@ public class Categorie {
     public int score(Depeche d) {
         return 0;
     }
-
-    public static void main(String[] args) {
-        initLexique("./sport.txt");
-        System.out.println(lexique);
-    }
 }

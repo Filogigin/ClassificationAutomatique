@@ -10,7 +10,7 @@ public class UtilitairePaireChaineEntier {
 
     public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
         int i = 0;
-        while (i < listePaires.size() && listePaires.get(i).getChaine().equals(chaine)) {
+        while (i < listePaires.size() && !listePaires.get(i).getChaine().equals(chaine)) {
             i++;
         }
 
