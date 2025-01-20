@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Categorie {
 
     private String nom; // le nom de la catégorie p.ex : sport, politique,...
@@ -25,7 +26,28 @@ public class Categorie {
 
 
     // initialisation du lexique de la catégorie à partir du contenu d'un fichier texte
-    public void initLexique(String nomFichier) {
+    public static void initLexique(String nomFichier) {
+
+
+        try {
+            FileInputStream file = new FileInputStream(nomFichier);
+            Scanner scanner = new Scanner(file);
+
+            while (scanner.hasNextLine()) {
+                /*
+                String ligne = scanner.nextLine();
+                String[] words = ligne.split(" ");
+                System.out.println(words);*/
+
+                String str = scanner.nextLine();;
+                String[] words = str.split(":");
+
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -35,5 +57,8 @@ public class Categorie {
         return 0;
     }
 
+    public static void main(String[] args) {
+        initLexique("./sport.txt");
+    }
 
 }
