@@ -1,5 +1,3 @@
-ECONOMIE
-
 tarification:3
 investisseurs:3
 fisc:3

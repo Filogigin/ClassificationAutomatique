@@ -1,5 +1,3 @@
-SCIENCES
-
 spacial:3
 psychiatrie:3
 Univers:3

@@ -1,5 +1,3 @@
-CULTURE
-
 concerts:3
 musique:3
 bande dessinée:3
