@@ -2,6 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Classification {
@@ -40,8 +41,36 @@ public class Classification {
         return depeches;
     }
 
-
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+        Scanner lecteur = new Scanner((System.in));
+
+        // parcours les depeches
+        for (int i = 0; i < depeches.size(); i++) {
+            String categoriesDepeche;
+            int MaxScore = categories.get(0).score(depeches.get(i)); // recupere le score de la premiere categorie de la premiere depeche
+
+            //parcours les categories
+            for (int j = 1; j < categories.size(); j++) {
+
+            }
+        }
+
+
+
+        // creation du fichier
+        /*
+        System.out.println("entrez votre nom :");
+        String s= lecteur.nextLine();
+        try {
+            FileWriter file = new FileWriter("fichier-sortie.txt");
+            file.write("chaine saisie :\n");
+            file.write(s+"\n");
+            file.close();
+            System.out.println("votre saisie a été écrite avec succès dans fichier-sortie.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
     }
 
 
@@ -109,7 +138,7 @@ public class Classification {
         categorieCulture.initLexique("./culture.txt");
         ArrayList<PaireChaineEntier> culture = categorieCulture.getLexique();
 
-        System.out.println("--> " + categoriePolitque.getLexique()); // renvoie la categories politique et pas culture
+        //System.out.println("--> " + categoriePolitque.getLexique()); // renvoie la categories politique et pas culture
 
 
         System.out.println(sport);
@@ -124,10 +153,17 @@ public class Classification {
         System.out.println(UtilitairePaireChaineEntier.chaineMax(politique));
         System.out.println(UtilitairePaireChaineEntier.chaineMax(culture));
 
+        Depeche d = new Depeche("393", "13/09/2024", "POLITIQUE", "Emmanuel Macron propose d'instaurer une fête nationale du sport tous les 14 septembre. Le président de la République espère ainsi \" réenclencher, pour la rentrée, la pratique du sport au quotidien \". Il apporte par ailleurs son soutien à la décision de la maire de Paris Anne Hidalgo de ne pas retirer les anneaux olympiques de la tour Eiffel.");
+        System.out.println(categorieSport.score(d));
 
-        //ArrayList<Depeche> depeches;
+        ArrayList<Categorie> listCategories = new ArrayList<>(Arrays.asList(categorieSport, categorieSciences, categoriePolitque, categorieEconomie, categorieCulture));
 
+        ArrayList<Depeche> listDepeches = new ArrayList<>();
+        for (int i = 0; i < depeches.size(); i++) {
+            listDepeches.add(depeches.get(i));
+        }
 
+        classementDepeches(listDepeches, listCategories, "hassoul");
 
     }
 

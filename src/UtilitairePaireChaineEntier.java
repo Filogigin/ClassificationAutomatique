@@ -48,7 +48,7 @@ public class UtilitairePaireChaineEntier {
         for (int i = 0; i < listePaires.size(); i++) {
             acc = acc + listePaires.get(i).getEntier();
         }
-        return Math.round(acc / listePaires.size());
+        return Math.round((float) acc / listePaires.size());
     }
 
 }
