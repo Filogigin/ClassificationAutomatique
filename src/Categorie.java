@@ -56,8 +56,9 @@ public class Categorie {
         int score = 0;
         for (int i = 0 ; i < d.getMots().size(); i++){
             String mot = d.getMots().get(i);
-            for (int j = 0; j < lexique.size() ; i++){
-                if (lexique.get(j).equals(mot)){
+            for (int j = 0; j < lexique.size(); j++){
+                if (lexique.get(j).getChaine().equals(mot)){
+                    score = score + lexique.get(j).getEntier();
                 }
             }
         }

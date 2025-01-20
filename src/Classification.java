@@ -78,17 +78,26 @@ public class Classification {
         Categorie.initLexique("./sport.txt");
         ArrayList<PaireChaineEntier> lexique = Categorie.getLexique();
 
-        System.out.print("Saisir un mot a rechercher: ");
-        String word = lecteur.nextLine();
-        int valWord = UtilitairePaireChaineEntier.entierPourChaine(lexique, word);
+//        System.out.print("Saisir un mot a rechercher: ");
+//        String word = lecteur.nextLine();
+//        int valWord = UtilitairePaireChaineEntier.entierPourChaine(lexique, word);
+//
+//        if (valWord == -1) {
+//            System.out.println(word + " n'a pas été trouvé");
+//        } else {
+//            System.out.println(word + " a une valeur de " + valWord);
+//        }
 
-        if (valWord == -1) {
-            System.out.println(word + " n'a pas été trouvé");
-        } else {
-            System.out.println(word + " a une valeur de " + valWord);
+        Categorie Sport = new Categorie("Sport");
+        Sport.initLexique("./sport.txt");
+        ArrayList<PaireChaineEntier> sport = Sport.getLexique();
+        int score = 0;
+        System.out.println("Calcul des scores pour certaines dépêches:");
+        for (int i = 400; i < 500; i++) {
+            Depeche depeche = depeches.get(i);
+             score = Sport.score(depeche);
+            System.out.println("Score de la dépêche " + (i + 1) + ": " + score);
         }
-
-
 
     }
 
