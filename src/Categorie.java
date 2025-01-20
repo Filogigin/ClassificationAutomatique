@@ -63,9 +63,4 @@ public class Categorie {
         }
         return score;
     }
-
-    public static void main(String[] args) {
-        initLexique("./sport.txt");
-        System.out.println(lexique);
-    }
 }

@@ -67,19 +67,26 @@ public class Classification {
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
-        Scanner lecteur = new Scanner(System.in);
 
+        /*
         for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
         }
+        */
 
+        Scanner lecteur = new Scanner(System.in);
         Categorie.initLexique("./sport.txt");
         ArrayList<PaireChaineEntier> lexique = Categorie.getLexique();
 
-        System.out.println(lexique);
-        System.out.print("Saisir un mot a rechércher: ");
+        System.out.print("Saisir un mot a rechercher: ");
         String word = lecteur.nextLine();
-        //System.out.println(UtilitairePaireChaineEntier.indicePourChaine(word));
+        int valWord = UtilitairePaireChaineEntier.entierPourChaine(lexique, word);
+
+        if (valWord == -1) {
+            System.out.println(word + " n'a pas été trouvé");
+        } else {
+            System.out.println(word + " a une valeur de " + valWord);
+        }
 
 
 
