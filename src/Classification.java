@@ -109,6 +109,9 @@ public class Classification {
         categorieCulture.initLexique("./culture.txt");
         ArrayList<PaireChaineEntier> culture = categorieCulture.getLexique();
 
+        System.out.println("--> " + categoriePolitque.getLexique()); // renvoie la categories politique et pas culture
+
+
         System.out.println(sport);
         System.out.println(sciences);
         System.out.println(economie);
@@ -123,6 +126,7 @@ public class Classification {
 
 
         //ArrayList<Depeche> depeches;
+
 
 
     }
