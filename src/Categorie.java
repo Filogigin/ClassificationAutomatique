@@ -32,6 +32,15 @@ public class Categorie {
 
     //calcul du score d'une dépêche pour la catégorie
     public int score(Depeche d) {
+        // Utiliser l'attribut de la classe Depeche (mots) afin de récupérer tout les mots d'une depeche
+        // Pour chaque mot de la dépeche, regarder si il est contenu dans la catégorie souhaitée (appelé), si c'est le cas, add.
+
+        for (int i=0 ; i < d.getMots().size() ; i++){
+            String mot = d.getMots().get(i);
+
+            if (mot == d.getCategorie().)
+
+
         return 0;
     }
 
