@@ -122,6 +122,9 @@ public class Classification {
         System.out.println(UtilitairePaireChaineEntier.chaineMax(culture));
 
 
+        //ArrayList<Depeche> depeches;
+
+
     }
 
 
