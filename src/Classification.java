@@ -67,11 +67,17 @@ public class Classification {
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+        Scanner lecteur = new Scanner(System.in);
 
         for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
         }
 
+        Categorie.initLexique("./sport.txt");
+        Categorie.getLexique();
+        /*System.out.print("Saisir un mot a rechércher: ");
+        String word = lecteur.nextLine();
+        System.out.println(UtilitairePaireChaineEntier.indicePourChaine(word));*/
     }
 
 

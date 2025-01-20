@@ -7,48 +7,50 @@ import java.util.Scanner;
 public class Categorie {
 
     private String nom; // le nom de la catégorie p.ex : sport, politique,...
-    private ArrayList<PaireChaineEntier> lexique; //le lexique de la catégorie
+    private static ArrayList<PaireChaineEntier> lexique = new ArrayList<>(); //le lexique de la catégorie
 
     // constructeur
     public Categorie(String nom) {
         this.nom = nom;
+        this.lexique = lexique;
     }
-
 
     public String getNom() {
         return nom;
     }
 
-
-    public  ArrayList<PaireChaineEntier> getLexique() {
+    public ArrayList<PaireChaineEntier> getLexique() {
         return lexique;
     }
 
-
     // initialisation du lexique de la catégorie à partir du contenu d'un fichier texte
     public static void initLexique(String nomFichier) {
-
-
         try {
             FileInputStream file = new FileInputStream(nomFichier);
             Scanner scanner = new Scanner(file);
-
+            PaireChaineEntier currentPaire = new PaireChaineEntier("", 0);
+            String currentWord;
+            int currentEntier;
+            // tant qu'il y a une ligne
             while (scanner.hasNextLine()) {
-                /*
+                int i = 0;
                 String ligne = scanner.nextLine();
-                String[] words = ligne.split(" ");
-                System.out.println(words);*/
 
-                String str = scanner.nextLine();;
-                String[] words = str.split(":");
-
-
+                while (i < ligne.length() && ligne.charAt(i) != ':') {
+                    i++;
+                }
+                // recupere les valeurs et les mets dans des variable
+                currentWord = ligne.substring(0, i);
+                currentEntier = Integer.parseInt(ligne.substring(i+1, ligne.length()));
+                // set les valeurs
+                currentPaire.setChaine(currentWord);
+                currentPaire.setEntier(currentEntier);
+                // ajoute dans l'arrayList
+                lexique.add(currentPaire);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -59,6 +61,6 @@ public class Categorie {
 
     public static void main(String[] args) {
         initLexique("./sport.txt");
+        System.out.println(lexique);
     }
-
 }
