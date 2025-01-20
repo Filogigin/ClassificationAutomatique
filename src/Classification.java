@@ -75,29 +75,52 @@ public class Classification {
         */
 
         Scanner lecteur = new Scanner(System.in);
-        Categorie.initLexique("./sport.txt");
-        ArrayList<PaireChaineEntier> lexique = Categorie.getLexique();
 
-//        System.out.print("Saisir un mot a rechercher: ");
-//        String word = lecteur.nextLine();
-//        int valWord = UtilitairePaireChaineEntier.entierPourChaine(lexique, word);
-//
-//        if (valWord == -1) {
-//            System.out.println(word + " n'a pas été trouvé");
-//        } else {
-//            System.out.println(word + " a une valeur de " + valWord);
-//        }
+        /*
+        System.out.print("Saisir un mot a rechercher: ");
+        String word = lecteur.nextLine();
+        int valWord = UtilitairePaireChaineEntier.entierPourChaine(lexique, word);
 
-        Categorie Sport = new Categorie("Sport");
-        Sport.initLexique("./sport.txt");
-        ArrayList<PaireChaineEntier> sport = Sport.getLexique();
-        int score = 0;
-        System.out.println("Calcul des scores pour certaines dépêches:");
-        for (int i = 400; i < 500; i++) {
-            Depeche depeche = depeches.get(i);
-             score = Sport.score(depeche);
-            System.out.println("Score de la dépêche " + (i + 1) + ": " + score);
+        if (valWord == -1) {
+            System.out.println(word + " n'a pas été trouvé");
+        } else {
+            System.out.println(word + " a une valeur de " + valWord);
         }
+        */
+
+
+        Categorie categorieSport = new Categorie("sport");
+        categorieSport.initLexique("./sport.txt");
+        ArrayList<PaireChaineEntier> sport = categorieSport.getLexique();
+
+        Categorie categorieSciences = new Categorie("sciences");
+        categorieSciences.initLexique("./sciences.txt");
+        ArrayList<PaireChaineEntier> sciences = categorieSciences.getLexique();
+
+        Categorie categorieEconomie = new Categorie("economie");
+        categorieEconomie.initLexique("./economie.txt");
+        ArrayList<PaireChaineEntier> economie = categorieEconomie.getLexique();
+
+        Categorie categoriePolitque = new Categorie("politique");
+        categoriePolitque.initLexique("./politique.txt");
+        ArrayList<PaireChaineEntier> politique = categoriePolitque.getLexique();
+
+        Categorie categorieCulture = new Categorie("culture");
+        categorieCulture.initLexique("./culture.txt");
+        ArrayList<PaireChaineEntier> culture = categorieCulture.getLexique();
+
+        System.out.println(sport);
+        System.out.println(sciences);
+        System.out.println(economie);
+        System.out.println(politique);
+        System.out.println(culture);
+
+        System.out.println(UtilitairePaireChaineEntier.chaineMax(sport));
+        System.out.println(UtilitairePaireChaineEntier.chaineMax(sciences));
+        System.out.println(UtilitairePaireChaineEntier.chaineMax(economie));
+        System.out.println(UtilitairePaireChaineEntier.chaineMax(politique));
+        System.out.println(UtilitairePaireChaineEntier.chaineMax(culture));
+
 
     }
 
