@@ -35,7 +35,7 @@ public class Categorie {
                 int i = 0;
                 String ligne = scanner.nextLine();
 
-                while (i < ligne.length() && ligne.charAt(i) != ':') {
+                while (i <= ligne.length() && ligne.charAt(i) != ':') {
                     i++;
                 }
                 // recupere les valeurs et les mets dans des variable
@@ -53,6 +53,14 @@ public class Categorie {
 
     //calcul du score d'une dépêche pour la catégorie
     public int score(Depeche d) {
-        return 0;
+        int score = 0;
+        for (int i = 0 ; i < d.getMots().size(); i++){
+            String mot = d.getMots().get(i);
+            for (int j = 0; j < lexique.size() ; i++){
+                if (lexique.get(j).equals(mot)){
+                }
+            }
+        }
+        return score;
     }
 }
