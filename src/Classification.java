@@ -63,7 +63,7 @@ public class Classification {
     }
 
     public static void main(String[] args) {
-        /*
+
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
@@ -74,14 +74,15 @@ public class Classification {
         }
 
         Categorie.initLexique("./sport.txt");
-*/
-        /*System.out.print("Saisir un mot a rechércher: ");
-        String word = lecteur.nextLine();
-        System.out.println(UtilitairePaireChaineEntier.indicePourChaine(word));*/
-
-        Categorie.initLexique("./sport.txt");
         ArrayList<PaireChaineEntier> lexique = Categorie.getLexique();
+
         System.out.println(lexique);
+        System.out.print("Saisir un mot a rechércher: ");
+        String word = lecteur.nextLine();
+        //System.out.println(UtilitairePaireChaineEntier.indicePourChaine(word));
+
+
+
     }
 
 

@@ -28,7 +28,6 @@ public class Categorie {
         try {
             FileInputStream file = new FileInputStream(nomFichier);
             Scanner scanner = new Scanner(file);
-            PaireChaineEntier currentPaire = new PaireChaineEntier("", 0);
             String currentWord;
             int currentEntier;
             // tant qu'il y a une ligne
@@ -42,11 +41,8 @@ public class Categorie {
                 // recupere les valeurs et les mets dans des variable
                 currentWord = ligne.substring(0, i);
                 currentEntier = Integer.parseInt(ligne.substring(i+1, ligne.length()));
-                // set les valeurs
-                currentPaire.setChaine(currentWord);
-                currentPaire.setEntier(currentEntier);
-                // ajoute dans l'arrayList
 
+                PaireChaineEntier currentPaire = new PaireChaineEntier(currentWord, currentEntier);
                 lexique.add(currentPaire);
             }
         } catch (IOException e) {
