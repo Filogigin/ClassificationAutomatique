@@ -1,0 +1,15 @@
+ECONOMIE
+
+tarification:3
+investisseurs:3
+fisc:3
+épargne:3
+modèle économique:3
+entreprise:2
+prix:2
+commercialisation:2
+revalorisées:2
+électrique:1
+dollars:1
+euro:1
+CAF:1

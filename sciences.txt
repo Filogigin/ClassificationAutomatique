@@ -1,0 +1,15 @@
+SCIENCES
+
+spacial:3
+psychiatrie:3
+Univers:3
+scientifique:3
+gamma:3
+NASA:2
+environnement:2
+médicaments:2
+analyse:2
+maths:2
+malade:1
+origine:1
+radiations:1
