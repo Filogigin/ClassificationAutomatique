@@ -1,12 +1,20 @@
-concerts:3
 musique:3
-bande dessinée:3
-musée:3
-art:3
-pop art:3
-œuvre:2
-jeux:2
-cinéma:2
-écrivain:1
-auteur:1
-peintre:1
+lieux:3
+gastronomie:3
+art:2
+locale:3
+artiste:2
+concerts:1
+festival:1
+sportifs:2
+public:1
+monument:2
+littérature:2
+films:2
+séries:2
+acteur:1
+spectacle:2
+stars:2
+documentaire:2
+contemporain:3
+histoire:3

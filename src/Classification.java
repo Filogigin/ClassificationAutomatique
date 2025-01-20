@@ -41,38 +41,91 @@ public class Classification {
         return depeches;
     }
 
+
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
-        Scanner lecteur = new Scanner((System.in));
-
-        // parcours les depeches
-        for (int i = 0; i < depeches.size(); i++) {
-            String categoriesDepeche;
-            int MaxScore = categories.get(0).score(depeches.get(i)); // recupere le score de la premiere categorie de la premiere depeche
-
-            //parcours les categories
-            for (int j = 1; j < categories.size(); j++) {
-
-            }
-        }
-
-
-
-        // creation du fichier
-        /*
-        System.out.println("entrez votre nom :");
-        String s= lecteur.nextLine();
         try {
-            FileWriter file = new FileWriter("fichier-sortie.txt");
-            file.write("chaine saisie :\n");
-            file.write(s+"\n");
+            FileWriter file = new FileWriter(nomFichier);
+
+            // compteurs pour les catégories trouvee par score
+            int nbSport = 0, nbCulture = 0, nbEconomie = 0, nbSciences = 0, nbPolitique = 0;
+
+            // compteurs pour les catégories reel des depeches
+            int nbSportReel = 0, nbCultureReel = 0, nbEconomieReel = 0, nbSciencesReel = 0, nbPolitiqueReel = 0;
+
+            for (Depeche depeche : depeches) {
+                switch (depeche.getCategorie().toLowerCase()) {
+                    case "sport":
+                        nbSportReel++;
+                        break;
+                    case "sciences":
+                        nbSciencesReel++;
+                        break;
+                    case "politique":
+                        nbPolitiqueReel++;
+                        break;
+                    case "economie":
+                        nbEconomieReel++;
+                        break;
+                    case "culture":
+                        nbCultureReel++;
+                        break;
+                }
+            }
+
+            // parcours des dépêches pour calcul des scores
+            for (Depeche depeche : depeches) {
+                String meilleureCategorie = categories.get(1).getNom();
+                int maxScore = categories.get(1).score(depeche);
+
+                // calcul des scores pour chaque catégorie
+                for (Categorie categorie : categories) {
+                    int score = categorie.score(depeche); // Calcul du score pour cette catégorie
+                    if (score > maxScore) {
+                        maxScore = score;
+                        meilleureCategorie = categorie.getNom();
+                    }
+                }
+
+                file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
+
+                switch (meilleureCategorie.toLowerCase()) {
+                    case "sport":
+                        nbSport++;
+                        break;
+                    case "sciences":
+                        nbSciences++;
+                        break;
+                    case "politique":
+                        nbPolitique++;
+                        break;
+                    case "economie":
+                        nbEconomie++;
+                        break;
+                    case "culture":
+                        nbCulture++;
+                        break;
+                }
+            }
+
+            double pourcentageSciences = (double) nbSciences / nbSciencesReel * 100;
+            double pourcentageCulture = (double) nbCulture / nbCultureReel * 100;
+            double pourcentageEconomie = (double) nbEconomie / nbEconomieReel * 100;
+            double pourcentagePolitique = (double) nbPolitique / nbPolitiqueReel * 100;
+            double pourcentageSport = (double) nbSport / nbSportReel * 100;
+
+            file.write("SCIENCES: " + pourcentageSciences + "%\n");
+            file.write("CULTURE: " + pourcentageCulture + "%\n");
+            file.write("ECONOMIE: " + pourcentageEconomie + "%\n");
+            file.write("POLITIQUE: " + pourcentagePolitique + "%\n");
+            file.write("SPORT: " + pourcentageSport + "%\n");
+            file.write("MOYENNE: " + (pourcentageSciences + pourcentageCulture + pourcentageEconomie + pourcentagePolitique + pourcentageSport) / 5 + "%\n");
+
             file.close();
-            System.out.println("votre saisie a été écrite avec succès dans fichier-sortie.txt");
+            System.out.println("Les catégories des depeches mit dans un fichier texte");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
     }
-
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
