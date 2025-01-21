@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Classification {
-
-
     private static ArrayList<Depeche> lectureDepeches(String nomFichier) {
         //creation d'un tableau de dépêches
         ArrayList<Depeche> depeches = new ArrayList<>();
@@ -41,19 +39,14 @@ public class Classification {
         return depeches;
     }
 
-
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
         try {
             FileWriter file = new FileWriter(nomFichier);
 
-            ArrayList<Integer> nbCategorieDepeche = new ArrayList<>();
+            // Compteurs pour les catégories dans les depeches
             ArrayList<Integer> nbCategorieDepecheReel = new ArrayList<>();
 
-            // initialise nbCategorieDepeche avec des 0 pour l'incrementer
-            for (int i = 0; i < categories.size(); i++) {
-                nbCategorieDepeche.add(0);
-            }
-
+            // Initialise nbCategorieDepecheReel à 0 pour le nombre de categories
             for (Categorie categorie : categories) {
                 int acc = 0;
 
@@ -65,56 +58,65 @@ public class Classification {
                 nbCategorieDepecheReel.add(acc);
             }
 
-            // parcours des dépêches pour calcul des scores
-            for (Depeche depeche : depeches) {
-                String meilleureCategorie = categories.get(0).getNom(); // = sport
-                int maxScore = categories.get(0).score(depeche);
-                boolean trouver = false;
+            // Compteurs pour les catégories détectées
+            ArrayList<Integer> nbCategorieDepeche = new ArrayList<>();
 
-                // calcul des scores pour chaque catégorie
-                for (Categorie categorie : categories) {
-                    int score = categorie.score(depeche); // calcul du score pour cette catégorie
+            // Initialise nbCategorieDepeche à 0 pour le nombre de categories
+            for (int i = 0; i < categories.size(); i++) {
+                nbCategorieDepeche.add(0);
+            }
 
+            // Parcours des dépêches pour calcul des scores
+            for (int i = 0; i < depeches.size(); i++) {
+                Depeche depeche = depeches.get(i); // Récupérer la dépêche à l'indice d
+                String meilleureCategorie = "NON TROUVÉ";
+                int maxScore = 0; // On commence à 0, car un score négatif ou nul n'est pas valide
+                boolean categorieTrouvee = false;
+
+                // Parcours des catégories pour trouver la meilleure
+                for (int j = 0; j < categories.size(); j++) {
+                    Categorie categorie = categories.get(j);
+                    int score = categorie.score(depeche);
+
+                    // Si un meilleur score est trouvé, on met à jour
                     if (score > maxScore) {
                         maxScore = score;
                         meilleureCategorie = categorie.getNom();
-                        trouver = true;
+                        categorieTrouvee = true;
                     }
                 }
 
-                if (trouver) {
-                    file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
-
-                    // incrementation dans nbCategorieDepeche
-                    int i = 0;
-                    while (i < categories.size()) {
-                        if (meilleureCategorie.toLowerCase().equals(categories.get(i).getNom())) {
-                            nbCategorieDepeche.set(i, nbCategorieDepeche.get(i) + 1);
-                            break;
-                        }
-                        i++;
-                    }
-                } else {
+                // Si aucune catégorie n'a de score valide, garder "NON TROUVÉ"
+                if (!categorieTrouvee) {
                     file.write(depeche.getId() + ": " + "NON TROUVÉ" + "\n");
+                } else {
+                    // Sinon, incrémenter le compteur pour la catégorie trouvée
+                    int k = 0;
+                    while (k < categories.size() && !meilleureCategorie.equalsIgnoreCase(categories.get(k).getNom())) {
+                        k++;
+                    }
+                    if (k < categories.size()) { // Vérifier que l'indice est valide
+                        nbCategorieDepeche.set(k, nbCategorieDepeche.get(k) + 1);
+                    }
+                    file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
                 }
             }
 
-            // calcul pourcentage et moyenne
-            int accTrouver = 0;
-            int accReel = 0;
+            float accMoyenne = 0f;
+            // Écriture des statistiques dans le fichier
             for (int i = 0; i < categories.size(); i++) {
-                float nbTrouver = nbCategorieDepeche.get(i);
+                float nbTrouve = nbCategorieDepeche.get(i);
                 float nbReel = nbCategorieDepecheReel.get(i);
 
-                accTrouver += nbCategorieDepecheReel.get(i);
-                accReel += nbCategorieDepeche.get(i);
+                accMoyenne += nbTrouve;
 
-                file.write(categories.get(i).getNom().toUpperCase() + ": " + ((nbTrouver/nbReel)*100) + "%\n");
+                file.write(categories.get(i).getNom().toUpperCase() + ": " + ((nbTrouve/nbReel)*100) + "%\n");
             }
-            file.write("MOYENNE: " + ((accTrouver/accReel)*100) + "%\n");
+            file.write("MOYENNE: " + (accMoyenne/categories.size()) + "%");
 
+            // Fermeture du fichier
             file.close();
-            System.out.println("votre saisie a été écrite avec succès dans " + nomFichier);
+            System.out.println("Les catégories des dépêches ont été écrites avec succès dans " + nomFichier);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,7 +125,6 @@ public class Classification {
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
         return resultat;
-
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
@@ -210,7 +211,6 @@ public class Classification {
             listDepeches.add(depeches.get(i));
         }
         classementDepeches(listDepeches, listCategories, "hassoul");
-
     }
 
 

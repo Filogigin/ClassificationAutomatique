@@ -18,12 +18,12 @@ maths:2
 médicale:1
 innovations:2
 hôpital:1
- science:3
- sciences:3
- scientifiques:2
- scientifique:2
- spatiale:2
- observatoire:1
- ADN:1
- molécule:1
- mathématiques:1
+science:3
+sciences:3
+scientifiques:2
+scientifique:2
+spatiale:2
+observatoire:1
+ADN:1
+molécule:1
+mathématiques:1
