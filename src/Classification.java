@@ -89,14 +89,19 @@ public class Classification {
                 }
             }
 
-
-
-
-            // calcul moyenne
+            // calcul pourcentage et moyenne
+            int accTrouver = 0;
+            int accReel = 0;
             for (int i = 0; i < categories.size(); i++) {
-                System.out.println();
-            }
+                float nbTrouver = nbCategorieDepeche.get(i);
+                float nbReel = nbCategorieDepecheReel.get(i);
 
+                accTrouver += nbCategorieDepecheReel.get(i);
+                accReel += nbCategorieDepeche.get(i);
+
+                file.write(categories.get(i).getNom().toUpperCase() + ": " + ((nbTrouver/nbReel)*100) + "%\n");
+            }
+            file.write("MOYENNE: " + ((accTrouver/accReel)*100) + "%\n");
 
             file.close();
             System.out.println("votre saisie a été écrite avec succès dans " + nomFichier);
@@ -104,7 +109,6 @@ public class Classification {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
