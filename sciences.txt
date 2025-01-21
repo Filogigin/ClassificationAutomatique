@@ -3,10 +3,10 @@ Cancer:2
 étude:2
 Covid-19:2
 astronomique:2
-laboratoire:3
+laboratoire:2
 SpaceX:2
 mission:1
-chercheurs:3
+chercheurs:2
 technologie:3
 recherche:3
 santé:1
@@ -18,3 +18,12 @@ maths:2
 médicale:1
 innovations:2
 hôpital:1
+ science:3
+ sciences:3
+ scientifiques:2
+ scientifique:2
+ spatiale:2
+ observatoire:1
+ ADN:1
+ molécule:1
+ mathématiques:1
