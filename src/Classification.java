@@ -47,10 +47,13 @@ public class Classification {
             ArrayList<Integer> nbCategorieDepecheReel = new ArrayList<>();
 
             // Initialise nbCategorieDepecheReel à 0 pour le nombre de categories
-            for (Categorie categorie : categories) {
+            for (int i = 0; i < categories.size(); i++) {
+                Categorie categorie = categories.get(i);
                 int acc = 0;
 
-                for (Depeche depeche : depeches) {
+                for (int j = 0; j < depeches.size(); j++) {
+                    Depeche depeche = depeches.get(j);
+
                     if (depeche.getCategorie().toLowerCase().equals(categorie.getNom())) {
                         acc++;
                     }
@@ -215,4 +218,3 @@ public class Classification {
 
 
 }
-
