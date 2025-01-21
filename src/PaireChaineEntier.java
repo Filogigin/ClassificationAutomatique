@@ -3,8 +3,8 @@ public class PaireChaineEntier {
     private int entier;
 
     public PaireChaineEntier(String chaine, int entier) {
-        chaine = this.chaine;
-        entier = this.entier;
+        this.chaine = chaine;
+        this.entier = entier;
     }
 
     public String getChaine() {
@@ -21,5 +21,10 @@ public class PaireChaineEntier {
 
     public void setEntier(int entier) {
         this.entier = entier;
+    }
+
+    @Override
+    public String toString() {
+        return "PaireChaineEntier{chaine='" + chaine + "', entier=" + entier + "}";
     }
 }
