@@ -67,25 +67,35 @@ public class Classification {
 
             // parcours des dépêches pour calcul des scores
             for (Depeche depeche : depeches) {
-                String meilleureCategorie = categories.get(1).getNom();
-                int maxScore = categories.get(1).score(depeche);
+                String meilleureCategorie = categories.get(0).getNom(); // = sport
+                int maxScore = categories.get(0).score(depeche);
+                boolean trouver = false;
 
                 // calcul des scores pour chaque catégorie
                 for (Categorie categorie : categories) {
-                    int score = categorie.score(depeche); // Calcul du score pour cette catégorie
+                    int score = categorie.score(depeche); // calcul du score pour cette catégorie
+
                     if (score > maxScore) {
                         maxScore = score;
                         meilleureCategorie = categorie.getNom();
+                        trouver = true;
                     }
                 }
-                file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
 
-                int i = 0;
-                while (i < categories.size()) {
-                    if (meilleureCategorie.toLowerCase().equals(categories.get(i).getNom())) {
-                        nbCategorieDepeche.set(i, nbCategorieDepeche.get(i) + 1);
+                if (trouver) {
+                    file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
+
+                    // incrementation dans nbCategorieDepeche
+                    int i = 0;
+                    while (i < categories.size()) {
+                        if (meilleureCategorie.toLowerCase().equals(categories.get(i).getNom())) {
+                            nbCategorieDepeche.set(i, nbCategorieDepeche.get(i) + 1);
+                            break;
+                        }
+                        i++;
                     }
-                    i++;
+                } else {
+                    file.write(depeche.getId() + ": " + "NON TROUVÉ" + "\n");
                 }
             }
 
@@ -105,7 +115,6 @@ public class Classification {
 
             file.close();
             System.out.println("votre saisie a été écrite avec succès dans " + nomFichier);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
