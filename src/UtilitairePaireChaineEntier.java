@@ -25,7 +25,7 @@ public class UtilitairePaireChaineEntier {
         if(i < listePaires.size()) {
             return listePaires.get(i).getEntier();
         }
-        return -1; // la chaine n'a pas étais trouvé
+        return 0; // la chaine n'a pas étais trouvé
     }
 
     // retourne la chaine associé au plus grand entier de listePaires

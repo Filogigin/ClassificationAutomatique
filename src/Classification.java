@@ -46,30 +46,23 @@ public class Classification {
         try {
             FileWriter file = new FileWriter(nomFichier);
 
-            // compteurs pour les catégories trouvee par score
-            int nbSport = 0, nbCulture = 0, nbEconomie = 0, nbSciences = 0, nbPolitique = 0;
+            ArrayList<Integer> nbCategorieDepeche = new ArrayList<>();
+            ArrayList<Integer> nbCategorieDepecheReel = new ArrayList<>();
 
-            // compteurs pour les catégories reel des depeches
-            int nbSportReel = 0, nbCultureReel = 0, nbEconomieReel = 0, nbSciencesReel = 0, nbPolitiqueReel = 0;
+            // initialise nbCategorieDepeche avec des 0 pour l'incrementer
+            for (int i = 0; i < categories.size(); i++) {
+                nbCategorieDepeche.add(0);
+            }
 
-            for (Depeche depeche : depeches) {
-                switch (depeche.getCategorie().toLowerCase()) {
-                    case "sport":
-                        nbSportReel++;
-                        break;
-                    case "sciences":
-                        nbSciencesReel++;
-                        break;
-                    case "politique":
-                        nbPolitiqueReel++;
-                        break;
-                    case "economie":
-                        nbEconomieReel++;
-                        break;
-                    case "culture":
-                        nbCultureReel++;
-                        break;
+            for (Categorie categorie : categories) {
+                int acc = 0;
+
+                for (Depeche depeche : depeches) {
+                    if (depeche.getCategorie().toLowerCase().equals(categorie.getNom())) {
+                        acc++;
+                    }
                 }
+                nbCategorieDepecheReel.add(acc);
             }
 
             // parcours des dépêches pour calcul des scores
@@ -85,46 +78,33 @@ public class Classification {
                         meilleureCategorie = categorie.getNom();
                     }
                 }
-
                 file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
 
-                switch (meilleureCategorie.toLowerCase()) {
-                    case "sport":
-                        nbSport++;
-                        break;
-                    case "sciences":
-                        nbSciences++;
-                        break;
-                    case "politique":
-                        nbPolitique++;
-                        break;
-                    case "economie":
-                        nbEconomie++;
-                        break;
-                    case "culture":
-                        nbCulture++;
-                        break;
+                int i = 0;
+                while (i < categories.size()) {
+                    if (meilleureCategorie.toLowerCase().equals(categories.get(i).getNom())) {
+                        nbCategorieDepeche.set(i, nbCategorieDepeche.get(i) + 1);
+                    }
+                    i++;
                 }
             }
 
-            double pourcentageSciences = (double) nbSciences / nbSciencesReel * 100;
-            double pourcentageCulture = (double) nbCulture / nbCultureReel * 100;
-            double pourcentageEconomie = (double) nbEconomie / nbEconomieReel * 100;
-            double pourcentagePolitique = (double) nbPolitique / nbPolitiqueReel * 100;
-            double pourcentageSport = (double) nbSport / nbSportReel * 100;
 
-            file.write("SCIENCES: " + pourcentageSciences + "%\n");
-            file.write("CULTURE: " + pourcentageCulture + "%\n");
-            file.write("ECONOMIE: " + pourcentageEconomie + "%\n");
-            file.write("POLITIQUE: " + pourcentagePolitique + "%\n");
-            file.write("SPORT: " + pourcentageSport + "%\n");
-            file.write("MOYENNE: " + (pourcentageSciences + pourcentageCulture + pourcentageEconomie + pourcentagePolitique + pourcentageSport) / 5 + "%\n");
+
+
+            // calcul moyenne
+            for (int i = 0; i < categories.size(); i++) {
+                System.out.println();
+            }
+
 
             file.close();
-            System.out.println("Les catégories des depeches mit dans un fichier texte");
+            System.out.println("votre saisie a été écrite avec succès dans " + nomFichier);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
@@ -200,6 +180,7 @@ public class Classification {
         System.out.println(politique);
         System.out.println(culture);
 
+        /*
         System.out.println(UtilitairePaireChaineEntier.chaineMax(sport));
         System.out.println(UtilitairePaireChaineEntier.chaineMax(sciences));
         System.out.println(UtilitairePaireChaineEntier.chaineMax(economie));
@@ -208,14 +189,13 @@ public class Classification {
 
         Depeche d = new Depeche("393", "13/09/2024", "POLITIQUE", "Emmanuel Macron propose d'instaurer une fête nationale du sport tous les 14 septembre. Le président de la République espère ainsi \" réenclencher, pour la rentrée, la pratique du sport au quotidien \". Il apporte par ailleurs son soutien à la décision de la maire de Paris Anne Hidalgo de ne pas retirer les anneaux olympiques de la tour Eiffel.");
         System.out.println(categorieSport.score(d));
-
+*/
         ArrayList<Categorie> listCategories = new ArrayList<>(Arrays.asList(categorieSport, categorieSciences, categoriePolitque, categorieEconomie, categorieCulture));
 
         ArrayList<Depeche> listDepeches = new ArrayList<>();
         for (int i = 0; i < depeches.size(); i++) {
             listDepeches.add(depeches.get(i));
         }
-
         classementDepeches(listDepeches, listCategories, "hassoul");
 
     }
