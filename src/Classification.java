@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.lang.Object;
+import java.util.regex.Pattern;
 
 public class Classification {
     private static ArrayList<Depeche> lectureDepeches(String nomFichier) {
@@ -40,6 +42,11 @@ public class Classification {
     }
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+        /*
+        * idée: faire une liste dans une liste [[categorie, conteur], [categorie, conteur]]
+        * round les moyenne
+        * */
+        //long startTime = System.currentTimeMillis();
         try {
             FileWriter file = new FileWriter(nomFichier);
 
@@ -123,6 +130,23 @@ public class Classification {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        /*
+        long endTime = System.currentTimeMillis();
+        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
+        */
+    }
+
+    // Fonction pour vérifier si une chaîne est un nombre
+    private static boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        try {
+            Double.parseDouble(str); // Vérifie si la chaîne peut être convertie en un nombre
+            return true; // Si ça marche, c'est un nombre
+        } catch (NumberFormatException e) {
+            return false; // Sinon, ce n'est pas un nombre
+        }
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
@@ -136,7 +160,7 @@ public class Classification {
                         "aujourd", "hui" ,"ont", "était", "ils", "elle", "elles", "il", "on",
                         "ne", "pas", "plus", "ou", "a", "y", "sont", "été", "fait", "mais",
                         "se", "leur", "lui", "nous", "vous", "vos", "deux", "entre", "aussi",
-                        "c", "n", "ainsi", "peuvent", "ceux", "quelles", "quels", "quel", "dont", "ces"));
+                        "c", "n", "ainsi", "peuvent", "ceux", "quelles", "quels", "quel", "dont", "ces", "dès"));
 
         for (Depeche depech : depeches) {
             if (depech.getCategorie().equalsIgnoreCase(categorie)) {
@@ -150,20 +174,31 @@ public class Classification {
         }
 
         for (int i = 0; i < words.size(); i++) {
-            if (!banwords.contains(words.get(i))) {
-                for (String word : words) {
-                    dictionnaire.add(new PaireChaineEntier(word, 0));
-                }
+            if (!banwords.contains(words.get(i)) & !isNumeric(words.get(i))) {
+                dictionnaire.add(new PaireChaineEntier(words.get(i), 0));
             }
+        }
+        for (int i = 0; i < dictionnaire.size(); i++){
+            System.out.println(dictionnaire.get(i) + "\n");
         }
         return dictionnaire;
     }
 
+
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+
     }
 
     public static int poidsPourScore(int score) {
-        return 0;
+        if (score <= 0) {
+            return 0; // entre 0 et -infini
+        } else if (score <= 5) {
+            return 1; // entre 1 et 5
+        } else if (score <= 10) {
+            return 2; // entre 6 et 10
+        }
+        return 3; // entre 11 et +infini
+
     }
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
@@ -171,6 +206,8 @@ public class Classification {
     }
 
     public static void main(String[] args) {
+
+        //long startTime = System.currentTimeMillis();
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
@@ -242,7 +279,21 @@ public class Classification {
         for (int i = 0; i < depeches.size(); i++) {
             listDepeches.add(depeches.get(i));
         }
+
         classementDepeches(listDepeches, listCategories, "hassoul");
+
+        /*
+        long endTime = System.currentTimeMillis();
+        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
+        */
+
+        ArrayList<PaireChaineEntier> dico = initDico(depeches, "sport");
+        calculScores(depeches, "sport", dico);
+
+        Pattern pattern = Pattern.compile(".*[^0-9].*");
+
+
+
     }
 
 
