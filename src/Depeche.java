@@ -19,6 +19,9 @@ public class Depeche {
 
 
     private ArrayList<String> decoupeEnMots(String contenu) {
+
+        // Peut être créer un tableau comme initDico afin d'opti le temps passer ?
+
         String chaine = contenu.toLowerCase();
         chaine = chaine.replace('\n', ' ');
         chaine = chaine.replace('-', ' ');
@@ -29,6 +32,7 @@ public class Depeche {
         chaine = chaine.replace('\"', ' ');
         chaine = chaine.replace('(', ' ');
         chaine = chaine.replace(')', ' ');
+        chaine = chaine.replace(':', ' ');
         String[] tabchaine = chaine.split(" ");
         ArrayList<String> resultat = new ArrayList<String>();
         for (int i = 0; i < tabchaine.length; i++) {

@@ -126,8 +126,37 @@ public class Classification {
     }
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
-        ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
-        return resultat;
+        ArrayList<String> words = new ArrayList<>();
+        ArrayList<PaireChaineEntier> dictionnaire = new ArrayList<>();
+
+        ArrayList<String> banwords = new ArrayList<>(Arrays.asList
+                ("le", "la", "et", "de", "les", "un", "une", "des", "en", "du", "au",
+                        "aux", "à", "pour", "par", "sur", "dans", "avec", "comme", "est",
+                        "ce", "cette", "son", "sa", "ses", "qui", "que", "qu", "l", "d",
+                        "aujourd", "hui" ,"ont", "était", "ils", "elle", "elles", "il", "on",
+                        "ne", "pas", "plus", "ou", "a", "y", "sont", "été", "fait", "mais",
+                        "se", "leur", "lui", "nous", "vous", "vos", "deux", "entre", "aussi",
+                        "c", "n", "ainsi", "peuvent", "ceux", "quelles", "quels", "quel", "dont", "ces"));
+
+        for (Depeche depech : depeches) {
+            if (depech.getCategorie().equalsIgnoreCase(categorie)) {
+                for (int j = 0; j < depech.getMots().size(); j++) {
+                    String word = depech.getMots().get(j);
+                    if (!words.contains(word)) {
+                        words.add(word);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < words.size(); i++) {
+            if (!banwords.contains(words.get(i))) {
+                for (String word : words) {
+                    dictionnaire.add(new PaireChaineEntier(word, 0));
+                }
+            }
+        }
+        return dictionnaire;
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
