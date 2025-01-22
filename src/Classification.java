@@ -43,10 +43,10 @@ public class Classification {
         try {
             FileWriter file = new FileWriter(nomFichier);
 
-            // Compteurs pour les catégories dans les depeches
+            // compteurs pour les categories dans les depeches
             ArrayList<Integer> nbCategorieDepecheReel = new ArrayList<>();
 
-            // Initialise nbCategorieDepecheReel à 0 pour le nombre de categories
+            // initialise nbCategorieDepecheReel avec des 0 pour le nombre de categories
             for (int i = 0; i < categories.size(); i++) {
                 Categorie categorie = categories.get(i);
                 int acc = 0;
@@ -61,27 +61,27 @@ public class Classification {
                 nbCategorieDepecheReel.add(acc);
             }
 
-            // Compteurs pour les catégories détectées
+            // compteur pour les categories detectées
             ArrayList<Integer> nbCategorieDepeche = new ArrayList<>();
 
-            // Initialise nbCategorieDepeche à 0 pour le nombre de categories
+            // Initialise nbCategorieDepeche a 0 pour le nombre de categories
             for (int i = 0; i < categories.size(); i++) {
                 nbCategorieDepeche.add(0);
             }
 
-            // Parcours des dépêches pour calcul des scores
+            // parcours des depeches pour le calcul des scores
             for (int i = 0; i < depeches.size(); i++) {
-                Depeche depeche = depeches.get(i); // Récupérer la dépêche à l'indice d
+                Depeche depeche = depeches.get(i); // recuperer la dépêche à l'indice i
                 String meilleureCategorie = "NON TROUVÉ";
-                int maxScore = 0; // On commence à 0, car un score négatif ou nul n'est pas valide
+                int maxScore = 0; // on commence à 0, car un score négatif ou nul n'est pas valide
                 boolean categorieTrouvee = false;
 
-                // Parcours des catégories pour trouver la meilleure
+                // parcours des catégories pour trouver la meilleure
                 for (int j = 0; j < categories.size(); j++) {
                     Categorie categorie = categories.get(j);
                     int score = categorie.score(depeche);
 
-                    // Si un meilleur score est trouvé, on met à jour
+                    // si un meilleur score est trouvé, on met à jour
                     if (score > maxScore) {
                         maxScore = score;
                         meilleureCategorie = categorie.getNom();
@@ -89,7 +89,7 @@ public class Classification {
                     }
                 }
 
-                // Si aucune catégorie n'a de score valide, garder "NON TROUVÉ"
+                // si aucune catégorie n'a de score valide on garde "NON TROUVÉ"
                 if (!categorieTrouvee) {
                     file.write(depeche.getId() + ": " + "NON TROUVÉ" + "\n");
                 } else {
@@ -98,7 +98,7 @@ public class Classification {
                     while (k < categories.size() && !meilleureCategorie.equalsIgnoreCase(categories.get(k).getNom())) {
                         k++;
                     }
-                    if (k < categories.size()) { // Vérifier que l'indice est valide
+                    if (k < categories.size()) { // verifier que l'indice est valide
                         nbCategorieDepeche.set(k, nbCategorieDepeche.get(k) + 1);
                     }
                     file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
@@ -106,7 +106,7 @@ public class Classification {
             }
 
             float accMoyenne = 0f;
-            // Écriture des statistiques dans le fichier
+            // écriture des statistiques dans le fichier
             for (int i = 0; i < categories.size(); i++) {
                 float nbTrouve = nbCategorieDepeche.get(i);
                 float nbReel = nbCategorieDepecheReel.get(i);
@@ -117,7 +117,6 @@ public class Classification {
             }
             file.write("MOYENNE: " + (accMoyenne/categories.size()) + "%");
 
-            // Fermeture du fichier
             file.close();
             System.out.println("Les catégories des dépêches ont été écrites avec succès dans " + nomFichier);
         } catch (IOException e) {
@@ -127,7 +126,7 @@ public class Classification {
 
     private static boolean isNumber(String str) {
         try {
-            Double.parseDouble(str); // Vérifie si la chaîne peut être convertie en un nombre
+            Double.parseDouble(str); // verifie si la chaîne peut etre convertie en un nombre
             return true; // si il est convertie return true
         } catch (NumberFormatException e) {
             return false; // si il y a une erreur return false
@@ -215,7 +214,7 @@ public class Classification {
         try {
             FileWriter file = new FileWriter(nomFichier);
             ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches, categorie); // initialise le dictionnaire
-            calculScores(depeches, categorie, dictionnaire); // calcule les scores des mots du dictionnaire
+            calculScores(depeches, categorie, dictionnaire); // calcul les scores des mots du dictionnaire
 
             for (PaireChaineEntier paire : dictionnaire) {
                 String mot = paire.getChaine();
@@ -234,6 +233,7 @@ public class Classification {
 
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
@@ -310,13 +310,15 @@ public class Classification {
         ArrayList<PaireChaineEntier> dico = initDico(depeches, "sport");
         calculScores(depeches, "sport", dico);
 
+        //long startTime = System.currentTimeMillis();
 
         ArrayList<String> categories = new ArrayList<>(Arrays.asList("sport", "sciences", "politique", "economie", "culture"));
 
         for (int i = 0; i < categories.size(); i++) {
             generationLexique(depeches, categories.get(i), categories.get(i) + ".txt");
         };
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
     }
-
-
 }

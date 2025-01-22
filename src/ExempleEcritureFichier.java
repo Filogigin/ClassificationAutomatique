@@ -6,8 +6,6 @@ public class ExempleEcritureFichier
 {
 
     public static void main(String[] args) {
-
-
         try {
             FileWriter file = new FileWriter("fichier-sortie.txt");
             file.write("chaine saisie :\n");

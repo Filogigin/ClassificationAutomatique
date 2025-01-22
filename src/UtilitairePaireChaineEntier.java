@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 
 public class UtilitairePaireChaineEntier {
-
-
     public static int indicePourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
         int i = 0;
 
@@ -41,7 +39,6 @@ public class UtilitairePaireChaineEntier {
 
         return max.getChaine();
     }
-
 
     public static float moyenne(ArrayList<PaireChaineEntier> listePaires) {
         int acc = 0;

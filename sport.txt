@@ -1,4 +1,3 @@
-je: 1
 décide: 1
 associer: 1
 crohn: 1
