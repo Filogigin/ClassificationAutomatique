@@ -182,29 +182,29 @@ public class Classification {
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
-        for (Depeche depeche : depeches) {
-            boolean dansCategorie = depeche.getCategorie().equalsIgnoreCase(categorie);
-            ArrayList<String> mots = depeche.getMots(); // Découpe le texte en mots
-
-            for (String mot : mots) {
-                mot = mot.toLowerCase(); // Normalisation des mots
-                for (PaireChaineEntier paire : dictionnaire) {
-                    if (paire.getChaine().equals(mot)) {
-                        if (dansCategorie) {
-                            paire.setEntier(paire.getEntier() + 1); // Incrémenter le score si dans la catégorie
-                        } else {
-                            paire.setEntier(paire.getEntier() - 1); // Décrémenter le score sinon
-                        }
+        for (int i = 0; i < depeches.size(); i++) {
+            for (int j = 0; j < depeches.get(i).getMots().size(); j++) {
+                for (int k = 0; k < dictionnaire.size(); k++) {
+                    if ((depeches.get(i).getCategorie().equalsIgnoreCase(categorie))
+                            && dictionnaire.get(k).getChaine().equalsIgnoreCase(depeches.get(i).getMots().get(j))) {
+                        // Update le mot du dico à +1
+                    } else {
+                        // Update le mot du dico à -1
                     }
                 }
             }
         }
+
+        // Note à moi même :
+        // EN GROS On regarde chacune des depèches une à une, puis on regarde ses mots un à un.
+        // Si le mot j de la depêche i est dans le dictionnaire k (k = le numéro du mot dans le dico) Alors :
+        // On regarde si ce mot est dans la même catégorie que la string catégorie.
+        // Si c'est le cas, on incrémente score (du mot dans dictionnaire) de 1.
+        // Sinon, on décremente score (du mot dans dictionnaire) de 1.
     }
 
     public static int poidsPourScore(int score) {
-        if (score <= 0) {
-            return 0; // score nul ou négatif
-        } else if (score <= 5) {
+         if (score >= 1  & score <= 5) {
             return 1; // score compris entre 1 et 5
         } else if (score <= 10) {
             return 2; // score compris entre 6 et 10
@@ -224,7 +224,9 @@ public class Classification {
                 int poids = poidsPourScore(score);
 
                 // Écrire dans le fichier sous forme : mot | score | poids
-                file.write(mot + ": " + poids + "\n");
+                if (poids != 0) {
+                    file.write(mot + ": " + poids + "\n");
+                }
             }
             file.close();
         } catch (IOException e) {
