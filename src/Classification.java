@@ -137,7 +137,7 @@ public class Classification {
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<String> words = new ArrayList<>();
         ArrayList<PaireChaineEntier> dictionnaire = new ArrayList<>();
-        ArrayList<String> banwords = new ArrayList<>(Arrays.asList(
+        ArrayList<String> banWords = new ArrayList<>(Arrays.asList(
                 "le", "la", "et", "de", "les", "un", "une", "des", "en", "du", "au",
                 "aux", "à", "pour", "par", "sur", "dans", "avec", "comme", "est",
                 "ce", "cette", "son", "sa", "ses", "qui", "que", "qu", "l", "d",
@@ -148,14 +148,15 @@ public class Classification {
                 "même", "tous", "toutes", "tout", "fait", "faut", "avant", "après", "bien", "mal",
                 "aucun", "aucune", "chaque", "autre", "autres", "jamais", "toujours", "quelque",
                 "quelques", "sans", "certain", "certaine", "certains", "certaines", "leur", "leurs",
-                "mon", "ma", "mes", "notre", "nos", "votre", "leurs", "ainsi", "ceci", "cela",
+                "mon", "ma", "mes", "notre", "nos", "votre", "ainsi", "ceci", "cela",
                 "lors", "lorsque", "donc", "car", "si", "quand", "où", "comme", "très", "beaucoup",
                 "peu", "plusieurs", "moins", "chaque", "trop", "autant", "encore", "seulement", "souvent",
                 "déjà", "ensuite", "puis", "alors", "tandis", "quoi", "chez", "hors", "quel", "quels",
-                "quelle", "quelles", "leur", "leurs", "tant", "tantôt", "autour", "vers", "devant",
+                "quelle", "quelles", "leur", "tant", "tantôt", "autour", "vers", "devant",
                 "derrière", "dessous", "dessus", "loin", "près", "là", "ici", "partout", "nulle part",
                 "dedans", "dehors", "tout à fait", "presque", "pas du tout", "malgré", "selon", "ainsi que",
-                "environ", "parmi", "depuis", "pendant", "toujours", "jamais", "ailleurs", "or", "ni"
+                "environ", "parmi", "depuis", "pendant", "toujours", "jamais", "ailleurs", "or", "ni", "je",
+                "tu"
         ));
         for (int i = 0; i < depeches.size(); i++) {
             // si la depeche courrante est egale à la categorie, execute
@@ -170,10 +171,9 @@ public class Classification {
                 }
             }
         }
-
         for (int i = 0; i < words.size(); i++) {
             // si le mot n'est pas contenu dans banwords et qu'il n'est pas un nombre on l'ajoute au dictionnaires
-            if (!banwords.contains(words.get(i))
+            if (!banWords.contains(words.get(i))
                     && !isNumber(words.get(i))) {
                 dictionnaire.add(new PaireChaineEntier(words.get(i), 0));
             }
@@ -182,14 +182,18 @@ public class Classification {
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
-        for (Depeche depech : depeches) {
-            for (int j = 0; j < depech.getMots().size(); j++) {
-                for (PaireChaineEntier paireChaineEntier : dictionnaire) {
-                    if ((depech.getCategorie().equalsIgnoreCase(categorie))
-                            && paireChaineEntier.getChaine().equalsIgnoreCase(depech.getMots().get(j))) {
-                        paireChaineEntier.setEntier(paireChaineEntier.getEntier() + 1);
-                    } else {
-                        paireChaineEntier.setEntier(paireChaineEntier.getEntier() - 1);
+        for (Depeche depeche : depeches) {
+            ArrayList<String> mots = depeche.getMots(); // Découpe le texte en mots
+
+            for (String mot : mots) {
+                mot = mot.toLowerCase(); // Normalisation des mots
+                for (PaireChaineEntier paire : dictionnaire) {
+                    if (paire.getChaine().equals(mot)) {
+                        if (depeche.getCategorie().equalsIgnoreCase(categorie)) {
+                            paire.setEntier(paire.getEntier() + 1); // Incrémenter le score si dans la catégorie
+                        } else {
+                            paire.setEntier(paire.getEntier() - 1); // Décrémenter le score sinon
+                        }
                     }
                 }
             }
@@ -197,14 +201,14 @@ public class Classification {
     }
 
     public static int poidsPourScore(int score) {
-        if (score <= 0) {
-            return 0; // score nul ou négatif
-        } else if (score <= 5) {
+        if (score == 1) {
             return 1; // score compris entre 1 et 5
-        } else if (score <= 10) {
+        } else if (score > 2 & score <= 3) {
             return 2; // score compris entre 6 et 10
+        } else if (score > 3) {
+            return 3; // score supérieur à 10
         }
-        return 3; // score supérieur à 10
+        return 0;
     }
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
@@ -216,11 +220,11 @@ public class Classification {
             for (PaireChaineEntier paire : dictionnaire) {
                 String mot = paire.getChaine();
                 int score = paire.getEntier();
-                System.out.println(score);
                 int poids = poidsPourScore(score);
 
-                file.write(mot + ": " + poids + "\n");
-
+                if (poids != 0) {
+                    file.write(mot + ": " + poids + "\n");
+                }
             }
             file.close();
         } catch (IOException e) {
@@ -228,11 +232,12 @@ public class Classification {
         }
     }
 
+
     public static void main(String[] args) {
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
-        ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+        ArrayList<Depeche> depeches = lectureDepeches("./test.txt");
 
         /*
         for (int i = 0; i < depeches.size(); i++) {
