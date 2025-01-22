@@ -187,24 +187,19 @@ public class Classification {
                 for (PaireChaineEntier paireChaineEntier : dictionnaire) {
                     if ((depech.getCategorie().equalsIgnoreCase(categorie))
                             && paireChaineEntier.getChaine().equalsIgnoreCase(depech.getMots().get(j))) {
-                        paireChaineEntier.setEntier(paireChaineEntier.getEntier()+1);
+                        paireChaineEntier.setEntier(paireChaineEntier.getEntier() + 1);
                     } else {
-                        paireChaineEntier.setEntier(paireChaineEntier.getEntier()-1);
+                        paireChaineEntier.setEntier(paireChaineEntier.getEntier() - 1);
                     }
                 }
             }
         }
-
-        // Note à moi même :
-        // EN GROS On regarde chacune des depèches une à une, puis on regarde ses mots un à un.
-        // Si le mot j de la depêche i est dans le dictionnaire k (k = le numéro du mot dans le dico) Alors :
-        // On regarde si ce mot est dans la même catégorie que la string catégorie.
-        // Si c'est le cas, on incrémente score (du mot dans dictionnaire) de 1.
-        // Sinon, on décremente score (du mot dans dictionnaire) de 1.
     }
 
     public static int poidsPourScore(int score) {
-         if (score >= 1  & score <= 5) {
+        if (score <= 0) {
+            return 0; // score nul ou négatif
+        } else if (score <= 5) {
             return 1; // score compris entre 1 et 5
         } else if (score <= 10) {
             return 2; // score compris entre 6 et 10
@@ -221,12 +216,11 @@ public class Classification {
             for (PaireChaineEntier paire : dictionnaire) {
                 String mot = paire.getChaine();
                 int score = paire.getEntier();
+                System.out.println(score);
                 int poids = poidsPourScore(score);
 
-                // Écrire dans le fichier sous forme : mot | score | poids
-                if (poids != 0) {
-                    file.write(mot + ": " + poids + "\n");
-                }
+                file.write(mot + ": " + poids + "\n");
+
             }
             file.close();
         } catch (IOException e) {
