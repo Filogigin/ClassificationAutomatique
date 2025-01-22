@@ -182,14 +182,14 @@ public class Classification {
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
-        for (int i = 0; i < depeches.size(); i++) {
-            for (int j = 0; j < depeches.get(i).getMots().size(); j++) {
-                for (int k = 0; k < dictionnaire.size(); k++) {
-                    if ((depeches.get(i).getCategorie().equalsIgnoreCase(categorie))
-                            && dictionnaire.get(k).getChaine().equalsIgnoreCase(depeches.get(i).getMots().get(j))) {
-                        // Update le mot du dico à +1
+        for (Depeche depech : depeches) {
+            for (int j = 0; j < depech.getMots().size(); j++) {
+                for (PaireChaineEntier paireChaineEntier : dictionnaire) {
+                    if ((depech.getCategorie().equalsIgnoreCase(categorie))
+                            && paireChaineEntier.getChaine().equalsIgnoreCase(depech.getMots().get(j))) {
+                        paireChaineEntier.setEntier(paireChaineEntier.getEntier()+1);
                     } else {
-                        // Update le mot du dico à -1
+                        paireChaineEntier.setEntier(paireChaineEntier.getEntier()-1);
                     }
                 }
             }
