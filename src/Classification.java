@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.lang.Object;
-import java.util.regex.Pattern;
 
 public class Classification {
     private static ArrayList<Depeche> lectureDepeches(String nomFichier) {
@@ -42,53 +40,52 @@ public class Classification {
     }
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
-        /*
-        * idée: faire une liste dans une liste [[categorie, conteur], [categorie, conteur]]
-        * round les moyenne
-        * */
-        //long startTime = System.currentTimeMillis();
         try {
             FileWriter file = new FileWriter(nomFichier);
 
-            // Compteurs pour les catégories dans les depeches
+            // delaration des compteur
             ArrayList<Integer> nbCategorieDepecheReel = new ArrayList<>();
-
-            // Initialise nbCategorieDepecheReel à 0 pour le nombre de categories
-            for (int i = 0; i < categories.size(); i++) {
-                Categorie categorie = categories.get(i);
-                int acc = 0;
-
-                for (int j = 0; j < depeches.size(); j++) {
-                    Depeche depeche = depeches.get(j);
-
-                    if (depeche.getCategorie().toLowerCase().equals(categorie.getNom())) {
-                        acc++;
-                    }
-                }
-                nbCategorieDepecheReel.add(acc);
-            }
-
-            // Compteurs pour les catégories détectées
             ArrayList<Integer> nbCategorieDepeche = new ArrayList<>();
 
-            // Initialise nbCategorieDepeche à 0 pour le nombre de categories
+            // Initialisation des compteurs à 0 pour le nombre de categories (la liste est dans le meme ordre que la liste categories)
             for (int i = 0; i < categories.size(); i++) {
                 nbCategorieDepeche.add(0);
             }
 
+            // Initialise nbCategorieDepecheReel avec le nombre de depeche par categrories (la liste est dans le meme ordre que la liste categories)
+            // parcours les categories
+            for (int i = 0; i < categories.size(); i++) {
+                //initialise les variable a chaque iteration
+                Categorie categorie = categories.get(i);
+                int acc = 0;
+
+                // parcours les depeche
+                for (int j = 0; j < depeches.size(); j++) {
+                    Depeche depeche = depeches.get(j);
+
+                    // si la categorie de la depeche est la meme que celle de la categories on incremente l'accumulateur de 1
+                    if (depeche.getCategorie().toLowerCase().equals(categorie.getNom())) {
+                        acc++;
+                    }
+                }
+                // ajoute dans nbCategorieDepecheReel l'accumuleur
+                nbCategorieDepecheReel.add(acc);
+            }
+
             // Parcours des dépêches pour calcul des scores
             for (int i = 0; i < depeches.size(); i++) {
-                Depeche depeche = depeches.get(i); // Récupérer la dépêche à l'indice d
+                // pour chaque depeche on reinisalise les variables
+                Depeche depeche = depeches.get(i); // récupére la dépêche à l'indice i
                 String meilleureCategorie = "NON TROUVÉ";
-                int maxScore = 0; // On commence à 0, car un score négatif ou nul n'est pas valide
+                int maxScore = 0; // commencer a 0 car c'est le score minimal
                 boolean categorieTrouvee = false;
 
-                // Parcours des catégories pour trouver la meilleure
+                // parcours les catégories
                 for (int j = 0; j < categories.size(); j++) {
                     Categorie categorie = categories.get(j);
                     int score = categorie.score(depeche);
 
-                    // Si un meilleur score est trouvé, on met à jour
+                    // si un meilleur score est trouvé
                     if (score > maxScore) {
                         maxScore = score;
                         meilleureCategorie = categorie.getNom();
@@ -96,56 +93,51 @@ public class Classification {
                     }
                 }
 
-                // Si aucune catégorie n'a de score valide, garder "NON TROUVÉ"
+                // si aucune catégorie n'a été trouvé on garde "NON TROUVÉ"
                 if (!categorieTrouvee) {
-                    file.write(depeche.getId() + ": " + "NON TROUVÉ" + "\n");
-                } else {
-                    // Sinon, incrémenter le compteur pour la catégorie trouvée
-                    int k = 0;
-                    while (k < categories.size() && !meilleureCategorie.equalsIgnoreCase(categories.get(k).getNom())) {
-                        k++;
+                    file.write(depeche.getId() + ": " + meilleureCategorie + "\n");
+                } else { // sinon incrémenter le compteur pour la catégorie trouvée
+                    // prend l'indice de la meilleur categories
+                    int j = 0;
+                    while (j < categories.size() && !meilleureCategorie.equalsIgnoreCase(categories.get(j).getNom())) {
+                        j++;
                     }
-                    if (k < categories.size()) { // Vérifier que l'indice est valide
-                        nbCategorieDepeche.set(k, nbCategorieDepeche.get(k) + 1);
+                    if (j < categories.size()) { // Vérifier que l'indice est valide
+                        nbCategorieDepeche.set(j, nbCategorieDepeche.get(j) + 1); // incrementation dans nbCategorieDepeche
                     }
                     file.write(depeche.getId() + ": " + meilleureCategorie.toUpperCase() + "\n");
                 }
             }
 
+            // Statisiques
             float accMoyenne = 0f;
-            // Écriture des statistiques dans le fichier
+
             for (int i = 0; i < categories.size(); i++) {
                 float nbTrouve = nbCategorieDepeche.get(i);
                 float nbReel = nbCategorieDepecheReel.get(i);
 
-                accMoyenne += nbTrouve;
+                accMoyenne += nbTrouve; // additionne toute la liste nbCategorieDepeche
 
-                file.write(categories.get(i).getNom().toUpperCase() + ": " + ((nbTrouve/nbReel)*100) + "%\n");
+                // ecrit dans le fichier texte le pourcentage de reussite dans une categorie
+                file.write(categories.get(i).getNom().toUpperCase() + ": " + String.format("%.1f", (nbTrouve / nbReel) * 100) + "%\n");
             }
+            // ecrit dans le fichier texte le pourcentage de reussite de toutes les categories
             file.write("MOYENNE: " + (accMoyenne/categories.size()) + "%");
 
             // Fermeture du fichier
             file.close();
-            System.out.println("Les catégories des dépêches ont été écrites avec succès dans " + nomFichier);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*
-        long endTime = System.currentTimeMillis();
-        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + "ms");
-        */
     }
 
-    // Fonction pour vérifier si une chaîne est un nombre
-    private static boolean isNumeric(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
-        }
+    // vérifier si une chaîne est un nombre
+    private static boolean isNumber(String str) {
         try {
-            Double.parseDouble(str); // Vérifie si la chaîne peut être convertie en un nombre
-            return true; // Si ça marche, c'est un nombre
+            Double.parseDouble(str); // vérifie si la chaîne peut etre convertie en nombre
+            return true; // si il est convertie return true
         } catch (NumberFormatException e) {
-            return false; // Sinon, ce n'est pas un nombre
+            return false; // si il y a une erreur return false
         }
     }
 
@@ -153,19 +145,34 @@ public class Classification {
         ArrayList<String> words = new ArrayList<>();
         ArrayList<PaireChaineEntier> dictionnaire = new ArrayList<>();
 
-        ArrayList<String> banwords = new ArrayList<>(Arrays.asList
-                ("le", "la", "et", "de", "les", "un", "une", "des", "en", "du", "au",
-                        "aux", "à", "pour", "par", "sur", "dans", "avec", "comme", "est",
-                        "ce", "cette", "son", "sa", "ses", "qui", "que", "qu", "l", "d",
-                        "aujourd", "hui" ,"ont", "était", "ils", "elle", "elles", "il", "on",
-                        "ne", "pas", "plus", "ou", "a", "y", "sont", "été", "fait", "mais",
-                        "se", "leur", "lui", "nous", "vous", "vos", "deux", "entre", "aussi",
-                        "c", "n", "ainsi", "peuvent", "ceux", "quelles", "quels", "quel", "dont", "ces", "dès"));
+        ArrayList<String> banwords = new ArrayList<>(Arrays.asList(
+                "le", "la", "et", "de", "les", "un", "une", "des", "en", "du", "au",
+                "aux", "à", "pour", "par", "sur", "dans", "avec", "comme", "est",
+                "ce", "cette", "son", "sa", "ses", "qui", "que", "qu", "l", "d",
+                "aujourd", "hui", "ont", "était", "ils", "elle", "elles", "il", "on",
+                "ne", "pas", "plus", "ou", "a", "y", "sont", "été", "fait", "mais",
+                "se", "leur", "lui", "nous", "vous", "vos", "deux", "entre", "aussi",
+                "c", "n", "ainsi", "peuvent", "ceux", "quelles", "quels", "quel", "dont", "ces", "dès",
+                "même", "tous", "toutes", "tout", "fait", "faut", "avant", "après", "bien", "mal",
+                "aucun", "aucune", "chaque", "autre", "autres", "jamais", "toujours", "quelque",
+                "quelques", "sans", "certain", "certaine", "certains", "certaines", "leur", "leurs",
+                "mon", "ma", "mes", "notre", "nos", "votre", "leurs", "ainsi", "ceci", "cela",
+                "lors", "lorsque", "donc", "car", "si", "quand", "où", "comme", "très", "beaucoup",
+                "peu", "plusieurs", "moins", "chaque", "trop", "autant", "encore", "seulement", "souvent",
+                "déjà", "ensuite", "puis", "alors", "tandis", "quoi", "chez", "hors", "quel", "quels",
+                "quelle", "quelles", "leur", "leurs", "tant", "tantôt", "autour", "vers", "devant",
+                "derrière", "dessous", "dessus", "loin", "près", "là", "ici", "partout", "nulle part",
+                "dedans", "dehors", "tout à fait", "presque", "pas du tout", "malgré", "selon", "ainsi que",
+                "environ", "parmi", "depuis", "pendant", "toujours", "jamais", "ailleurs", "or", "ni"
+        ));
 
-        for (Depeche depech : depeches) {
-            if (depech.getCategorie().equalsIgnoreCase(categorie)) {
-                for (int j = 0; j < depech.getMots().size(); j++) {
-                    String word = depech.getMots().get(j);
+        for (int i = 0; i < depeches.size(); i++) {
+            // si la depeche courrante est egale à la categorie, execute
+            if (depeches.get(i).getCategorie().equalsIgnoreCase(categorie)) {
+                // parcours les mot de la ligne courante
+                for (int j = 0; j < depeches.get(i).getMots().size(); j++) {
+                    String word = depeches.get(i).getMots().get(j);
+                    // si le mot n'est pas contenu dans les mots deja ajouter alors on l'ajoute (si il n'est pas en double)
                     if (!words.contains(word)) {
                         words.add(word);
                     }
@@ -174,12 +181,10 @@ public class Classification {
         }
 
         for (int i = 0; i < words.size(); i++) {
-            if (!banwords.contains(words.get(i)) & !isNumeric(words.get(i))) {
+            // si le mot n'est pas contenu dans banwords et qu'il n'est pas un nombre on l'ajoute au dictionnaires
+            if (!banwords.contains(words.get(i)) & !isNumber(words.get(i))) {
                 dictionnaire.add(new PaireChaineEntier(words.get(i), 0));
             }
-        }
-        for (int i = 0; i < dictionnaire.size(); i++){
-            System.out.println(dictionnaire.get(i) + "\n");
         }
         return dictionnaire;
     }
@@ -280,7 +285,7 @@ public class Classification {
             listDepeches.add(depeches.get(i));
         }
 
-        classementDepeches(listDepeches, listCategories, "hassoul");
+        classementDepeches(listDepeches, listCategories, "hassoul.txt");
 
         /*
         long endTime = System.currentTimeMillis();
@@ -289,8 +294,6 @@ public class Classification {
 
         ArrayList<PaireChaineEntier> dico = initDico(depeches, "sport");
         calculScores(depeches, "sport", dico);
-
-        Pattern pattern = Pattern.compile(".*[^0-9].*");
 
 
 
