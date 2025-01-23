@@ -35,6 +35,10 @@ public class Depeche {
         chaine = chaine.replace(':', ' ');
         chaine = chaine.replace(';', ' ');
         chaine = chaine.replace('%', ' ');
+        chaine = chaine.replace('[', ' ');
+        chaine = chaine.replace(']', ' ');
+        chaine = chaine.replace('/', ' ');
+        chaine = chaine.replace('ᵉ', ' ');
         String[] tabchaine = chaine.split(" ");
         ArrayList<String> resultat = new ArrayList<String>();
         for (int i = 0; i < tabchaine.length; i++) {

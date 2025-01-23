@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.*;
 
 public class Classification {
     private static ArrayList<Depeche> lectureDepeches(String nomFichier) {
@@ -170,6 +171,8 @@ public class Classification {
                 }
             }
         }
+
+        // permet d'ajouter les mots unique et pas banni
         for (int i = 0; i < words.size(); i++) {
             // si le mot n'est pas contenu dans banwords et qu'il n'est pas un nombre on l'ajoute au dictionnaires
             if (!banWords.contains(words.get(i))
@@ -179,6 +182,7 @@ public class Classification {
         }
         return dictionnaire;
     }
+
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         for (Depeche depeche : depeches) {
@@ -231,7 +235,6 @@ public class Classification {
         }
     }
 
-
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
 
@@ -282,13 +285,13 @@ public class Classification {
 
         //System.out.println("--> " + categoriePolitque.getLexique()); // renvoie la categories politique et pas culture
 
-
+        /*
         System.out.println(sport);
         System.out.println(sciences);
         System.out.println(economie);
         System.out.println(politique);
         System.out.println(culture);
-
+*/
         /*
         System.out.println(UtilitairePaireChaineEntier.chaineMax(sport));
         System.out.println(UtilitairePaireChaineEntier.chaineMax(sciences));
@@ -298,7 +301,7 @@ public class Classification {
 
         Depeche d = new Depeche("393", "13/09/2024", "POLITIQUE", "Emmanuel Macron propose d'instaurer une fête nationale du sport tous les 14 septembre. Le président de la République espère ainsi \" réenclencher, pour la rentrée, la pratique du sport au quotidien \". Il apporte par ailleurs son soutien à la décision de la maire de Paris Anne Hidalgo de ne pas retirer les anneaux olympiques de la tour Eiffel.");
         System.out.println(categorieSport.score(d));
-*/
+        */
         ArrayList<Categorie> listCategories = new ArrayList<>(Arrays.asList(categorieSport, categorieSciences, categoriePolitque, categorieEconomie, categorieCulture));
 
         ArrayList<Depeche> listDepeches = new ArrayList<>();
