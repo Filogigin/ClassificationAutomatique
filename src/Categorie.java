@@ -22,24 +22,6 @@ public class Categorie {
         return lexique;
     }
 
-    private static ArrayList<PaireChaineEntier> triBulles(ArrayList<PaireChaineEntier> v) {
-        int j;
-        int i = 0;
-        while (i < v.size()-1) {
-            j = v.size()-1;
-            while (j > i) {
-                if (v.get(j).getChaine().compareToIgnoreCase(v.get(j-1).getChaine()) < 0) {
-                    PaireChaineEntier temporaire = v.get(j);
-                    v.set(j, v.get(j-1));
-                    v.set(j-1, temporaire);
-                }
-                j = j - 1;
-            }
-            i = i + 1;
-        }
-        return v;
-    }
-
     public void initLexique(String nomFichier) {
         try {
             FileInputStream file = new FileInputStream(nomFichier);
@@ -56,9 +38,6 @@ public class Categorie {
                 PaireChaineEntier currentPaire = new PaireChaineEntier(currentWord, currentEntier);
                 lexique.add(currentPaire);
             }
-            // trie
-            lexique = triBulles(lexique);
-
             scanner.close();
         } catch (IOException e) {
             e.printStackTrace();

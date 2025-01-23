@@ -40,6 +40,25 @@ public class Depeche {
         chaine = chaine.replace('/', ' ');
         chaine = chaine.replace('ᵉ', ' ');
         chaine = chaine.replace('#', ' ');
+        chaine = chaine.replace('…', ' ');
+        chaine = chaine.replace('-', ' ');
+        chaine = chaine.replace('–', ' ');
+        chaine = chaine.replace('_', ' ');
+        chaine = chaine.replace('+', ' ');
+        chaine = chaine.replace('*', ' ');
+        chaine = chaine.replace('!', ' ');
+        chaine = chaine.replace('?', ' ');
+        chaine = chaine.replace('&', ' ');
+        chaine = chaine.replace('0', ' ');
+        chaine = chaine.replace('1', ' ');
+        chaine = chaine.replace('2', ' ');
+        chaine = chaine.replace('3', ' ');
+        chaine = chaine.replace('4', ' ');
+        chaine = chaine.replace('5', ' ');
+        chaine = chaine.replace('6', ' ');
+        chaine = chaine.replace('7', ' ');
+        chaine = chaine.replace('8', ' ');
+        chaine = chaine.replace('9', ' ');
         String[] tabchaine = chaine.split(" ");
         ArrayList<String> resultat = new ArrayList<String>();
         for (int i = 0; i < tabchaine.length; i++) {
@@ -96,7 +115,6 @@ public class Depeche {
         System.out.println("date:" + date);
         System.out.println("catégorie:" + categorie);
         System.out.println(contenu);
-        System.out.println();
         System.out.println("---------------------");
     }
 

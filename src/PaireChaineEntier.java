@@ -25,6 +25,6 @@ public class PaireChaineEntier {
 
     @Override
     public String toString() {
-        return "PaireChaineEntier{chaine='" + chaine + "', entier=" + entier + "}";
+        return "{chaine='" + chaine + "', entier=" + entier + "}";
     }
 }

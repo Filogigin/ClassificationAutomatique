@@ -14,6 +14,7 @@ public class UtilitairePaireChaineEntier {
         return i;
     }
 
+
     public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
         int i = 0;
         while (i < listePaires.size() && !listePaires.get(i).getChaine().equals(chaine)) {
@@ -25,6 +26,7 @@ public class UtilitairePaireChaineEntier {
         }
         return 0; // la chaine n'a pas étais trouvé
     }
+
 
     // retourne la chaine associé au plus grand entier de listePaires
     public static String chaineMax(ArrayList<PaireChaineEntier> listePaires) {
@@ -39,6 +41,7 @@ public class UtilitairePaireChaineEntier {
 
         return max.getChaine();
     }
+
 
     public static float moyenne(ArrayList<PaireChaineEntier> listePaires) {
         int acc = 0;
