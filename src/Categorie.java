@@ -57,9 +57,7 @@ public class Categorie {
                 lexique.add(currentPaire);
             }
             // trie
-            System.out.println(lexique);
             lexique = triBulles(lexique);
-            System.out.println(lexique);
 
             scanner.close();
         } catch (IOException e) {

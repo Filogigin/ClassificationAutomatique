@@ -125,6 +125,35 @@ public class Classification {
         }
     }
 
+    public static int rechIndDico(ArrayList<PaireChaineEntier> motDansDepeche, String chaine) {
+        if (motDansDepeche.size() == 0) {
+            return -1;
+        } else {
+            if (motDansDepeche.get(motDansDepeche.size()-1).getChaine().compareToIgnoreCase(chaine) < 0) {
+                return -1;
+            } else {
+                int inf = 0;
+                int sup = motDansDepeche.size()-1;
+
+                int m;
+                while (inf < sup) {
+                    m = (inf + sup)/2;
+                    if(motDansDepeche.get(m).getChaine().compareToIgnoreCase(chaine) >= 0) {
+                        sup = m;
+                    } else {
+                        inf = m + 1;
+                    }
+                }
+
+                if (motDansDepeche.get(sup).getChaine().compareToIgnoreCase(chaine) == 0) {
+                    return sup;
+                }
+                return -1;
+
+            }
+        }
+    }
+
     private static boolean isNumber(String str) {
         try {
             Double.parseDouble(str); // verifie si la chaîne peut etre convertie en un nombre
@@ -185,18 +214,20 @@ public class Classification {
 
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+        dictionnaire.sort((p1, p2) -> p1.getChaine().compareToIgnoreCase(p2.getChaine()));
+
         for (Depeche depeche : depeches) {
             ArrayList<String> mots = depeche.getMots(); // Découpe le texte en mots
-
             for (String mot : mots) {
                 mot = mot.toLowerCase(); // Normalisation des mots
-                for (PaireChaineEntier paire : dictionnaire) {
-                    if (paire.getChaine().equals(mot)) {
-                        if (depeche.getCategorie().equalsIgnoreCase(categorie)) {
-                            paire.setEntier(paire.getEntier() + 1); // Incrémenter le score si dans la catégorie
-                        } else {
-                            paire.setEntier(paire.getEntier() - 1); // Décrémenter le score sinon
-                        }
+                int indice = rechIndDico(dictionnaire, mot); // Recherche dichotomique
+
+                if (indice != -1) { // Si le mot est trouvé dans le dictionnaire
+                    PaireChaineEntier paire = dictionnaire.get(indice);
+                    if (depeche.getCategorie().equalsIgnoreCase(categorie)) {
+                        paire.setEntier(paire.getEntier() + 1); // Incrémenter le score si dans la catégorie
+                    } else {
+                        paire.setEntier(paire.getEntier() - 1); // Décrémenter le score sinon
                     }
                 }
             }
