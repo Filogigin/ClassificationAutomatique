@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Classification {
 
-    //public static int compteurComparaisons = 0; // pour les algorithmes outillés
+    public static int compteurComparaisons = 0; // pour les algorithmes outillés
 
     private static ArrayList<Depeche> lectureDepeches(String nomFichier) {
         //creation d'un tableau de dépêches
@@ -356,11 +356,7 @@ public class Classification {
         Depeche depecheTest = depeches.get(19);
         System.out.println("\nCalcul des score sur la dépeche n°" + depecheTest.getId());
         depecheTest.afficher();
-        System.out.println("Score sur le lexique sport: " + categorieSport.score(depecheTest));
-        System.out.println("Score sur le lexique sciences: " + categorieSciences.score(depecheTest));
-        System.out.println("Score sur le lexique economie: " + categorieEconomie.score(depecheTest));
-        System.out.println("Score sur le lexique politique: " + categoriePolitque.score(depecheTest));
-        System.out.println("Score sur le lexique culture: " + categorieCulture.score(depecheTest));
+
 
 
         ArrayList<Categorie> categories = new ArrayList<>(Arrays.asList(categorieSport, categorieSciences, categoriePolitque, categorieEconomie, categorieCulture));

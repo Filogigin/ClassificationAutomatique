@@ -1,0 +1,17 @@
+jeux-olympiques:3
+gymnaste:3
+sport:3
+match:3
+mi-temps:3
+olympique:3
+ballon:3
+coupe:2
+paralympiques:2
+paralympique:2
+piscines:2
+football:2
+sportif:2
+tournoi:2
+jeux:2
+parc:1
+jeu:1

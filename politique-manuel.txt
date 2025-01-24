@@ -1,0 +1,11 @@
+matignon:3
+ministre:3
+rn:3
+macron:2
+république:2
+président:2
+barnier:2
+nomination:2
+lois:1
+loi:1
+budget:1
