@@ -387,10 +387,10 @@ public class Classification {
         }
 
         // classement des dépeches en fonction des scores calculés pour chaque catégorie
-        classementDepeches(depeches, categories, "hassoul");
+        classementDepeches(depeches, categories, "resultat.txt");
 
         long endTime = System.currentTimeMillis();
-        System.out.println("\nVotre saisie a été réalisée en : " + (endTime-startTime) + "ms");
+        System.out.println("\nVotre programme a été réalisée en : " + (endTime-startTime) + "ms");
 
         //System.out.println("Il y a eu " + compteurComparaisons + " comparaisons !");
 

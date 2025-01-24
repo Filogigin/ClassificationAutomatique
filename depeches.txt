@@ -2497,4 +2497,3 @@
 .D 18/09/2024
 .C SPORT
 .T Dans un Paris post-Jeux olympiques, le retour des sans-abri inquiète les associations. Les associations constatent le retour des populations les plus précaires sur la voie publique et peinent, notamment, à reprendre contact avec les migrants, qui craignent les interventions policières.
-
