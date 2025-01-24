@@ -318,8 +318,8 @@ public class Classification {
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
-        ArrayList<Depeche> depeches = lectureDepeches("./test.txt");
-
+        ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+        ArrayList<Depeche> test = lectureDepeches("./test.txt");
 
         // création des categories et des lexiques (un lexique est une liste de mots qui sont assosié a des valeurs)
         Categorie categorieSport = new Categorie("sport");
@@ -387,7 +387,7 @@ public class Classification {
         }
 
         // classement des dépeches en fonction des scores calculés pour chaque catégorie
-        classementDepeches(depeches, categories, "resultat.txt");
+        classementDepeches(test, categories, "resultat.txt");
 
         long endTime = System.currentTimeMillis();
         System.out.println("\nVotre programme a été réalisée en : " + (endTime-startTime) + "ms");
