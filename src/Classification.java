@@ -318,7 +318,7 @@ public class Classification {
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
-        ArrayList<Depeche> test = lectureDepeches("./depeches.txt");
+        ArrayList<Depeche> test = lectureDepeches("./test.txt");
 
         // création des categories et des lexiques (un lexique est une liste de mots qui sont assosié a des valeurs)
         Categorie categorieSport = new Categorie("sport");
