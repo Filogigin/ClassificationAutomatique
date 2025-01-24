@@ -313,13 +313,12 @@ public class Classification {
 
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
         Scanner lecteur = new Scanner(System.in);
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
-        ArrayList<Depeche> test = lectureDepeches("./test.txt");
+        ArrayList<Depeche> test = lectureDepeches("./depeches.txt");
 
         // création des categories et des lexiques (un lexique est une liste de mots qui sont assosié a des valeurs)
         Categorie categorieSport = new Categorie("sport");
@@ -376,17 +375,22 @@ public class Classification {
 
         // Création d'une liste contenant les noms des catégories
         ArrayList<String> nomCategories = new ArrayList<>(Arrays.asList("sport", "sciences", "politique", "economie", "culture"));
+        long startTime = System.currentTimeMillis();
 
         // Génération des lexiques pour chaque catégorie
         for (int i = 0; i < nomCategories.size(); i++) {
             generationLexique(depeches, nomCategories.get(i), nomCategories.get(i) + ".txt");
         }
 
+        long endTime = System.currentTimeMillis();
+        System.out.println("\nGénération des lexiques réalisée en: " + (endTime-startTime) + "ms");
+
+        startTime = System.currentTimeMillis();
         // classement des dépeches en fonction des scores calculés pour chaque catégorie
         classementDepeches(test, categories, "resultat.txt");
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("\nVotre programme a été réalisée en : " + (endTime-startTime) + "ms");
+        endTime = System.currentTimeMillis();
+        System.out.println("Classification des lexiques réalisée en: " + (endTime-startTime) + "ms");
 
         //System.out.println("Il y a eu " + compteurComparaisons + " comparaisons !");
 
